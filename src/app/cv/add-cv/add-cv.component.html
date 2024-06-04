@@ -1,21 +1,27 @@
-<form #formumaire="ngForm">
+<form [formGroup]="form">
   <label for="name">Name</label>
-  <input id="name" type="text" class="form-control" />
+  <input formControlName="name" id="name" type="text" class="form-control" />
 
   <label for="firstname">Firstname</label>
-  <input id="firstname" type="text" class="form-control" />
+  <input
+    formControlName="firstname"
+    id="firstname"
+    type="text"
+    class="form-control"
+  />
 
   <label for="job">Job</label>
-  <input id="job" type="text" class="form-control" />
+  <input formControlName="job" id="job" type="text" class="form-control" />
 
   <label for="age">Age</label>
-  <input id="age" type="number" class="form-control" />
+  <input formControlName="age" id="age" type="number" class="form-control" />
 
   <label for="cin">Cin</label>
-  <input id="cin" type="number" class="form-control" />
-
+  <input formControlName="cin" id="cin" type="number" class="form-control" />
   <label for="path">Path</label>
-  <input id="path" type="text" class="form-control" />
+  <input formControlName="path" id="path" type="text" class="form-control" />
 
-  <button class="btn btn-primary">Envoyer</button>
+  <button (click)="addCv()" [disabled]="form.invalid" class="btn btn-primary">
+    Envoyer
+  </button>
 </form>

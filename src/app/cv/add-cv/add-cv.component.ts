@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { CvService } from '../services/cv.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -18,19 +18,33 @@ export class AddCvComponent {
     private toaster: ToastrService
   ) {}
 
-  addCv(cv: Cv) {
-    this.cvService.addCv(cv).subscribe({
-      next: () => {
-        this.toaster
-          .success(`Le cv a été ajouté avec succès`);
-        this.router.navigate([APP_ROUTES.cv]);
-      },
-      error: (erreur) => {
-        console.log(erreur);
-        this.toaster.error(
-          `Problème avec le serveur veuillez contacter l'admin`
-        );
-      },
-    });
+  formBuilder = inject(FormBuilder);
+  form: FormGroup = this.formBuilder.group({
+    name: ['', { validators: [Validators.required] }],
+    firstname: ['', { validators: [Validators.required] }],
+    job: ['', { validators: [Validators.required] }],
+    path: [''],
+    age: [40, { validators: [Validators.required] }],
+    cin: [''],
+  });
+  addCv() {}
+
+  get name() {
+    return this.form.get('name')!;
+  }
+  get firstname() {
+    return this.form.get('firstname')!;
+  }
+  get age() {
+    return this.form.get('age')!;
+  }
+  get path() {
+    return this.form.get('path')!;
+  }
+  get cin() {
+    return this.form.get('cin')!;
+  }
+  get job() {
+    return this.form.get('job')!;
   }
 }
