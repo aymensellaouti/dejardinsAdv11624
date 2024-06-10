@@ -2,7 +2,7 @@ import { NgModule, isDevMode } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 import { ToastrModule } from "ngx-toastr";
 
@@ -49,6 +49,12 @@ import { ProductsComponent } from "./products/products.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { AutocompleteComponent } from "./cv/autocomplete/autocomplete.component";
 import { SliderComponent } from "./rxjs/slider/slider.component";
+import { sayHelloProviderFactory } from "./provider factories/sayHello.provider-factory";
+import { SAY_HELLO_INJECTION_TOKEN } from "./injection Token/sayHello.injection-token";
+import { HelpersService } from "./services/helpers.service";
+import { CvService } from "./cv/services/cv.service";
+import { CONSTANTES } from "src/config/const.config";
+import { FakeCvService } from "./cv/services/fake-cv.service";
 
 @NgModule({
   declarations: [
@@ -98,14 +104,30 @@ import { SliderComponent } from "./rxjs/slider/slider.component";
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ServiceWorkerModule.register("ngsw-worker.js", {
+    ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: "registerWhenStable:30000",
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [AuthInterceptorProvider],
+  providers: [
+    AuthInterceptorProvider,
+    HelpersService,
+    {
+      provide: CvService,
+      useClass: CONSTANTES.env === 'production' ?
+                CvService
+                : FakeCvService
+      ,
+    },
+    // {
+    //   // useFactory: sayHelloProviderFactory,
+    //   useClass: HelpersService,
+    //   provide: HelpersService,
+    //   // deps: [HttpClient],
+    // },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

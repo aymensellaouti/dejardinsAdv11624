@@ -1,13 +1,15 @@
-import { Component } from "@angular/core";
+import { Component, Inject, inject } from "@angular/core";
 import { Cv } from "../model/cv";
 import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "ngx-toastr";
 import { CvService } from "../services/cv.service";
 import { EMPTY, Observable, catchError, of } from "rxjs";
+import { HelpersService } from "src/app/services/helpers.service";
+import { SAY_HELLO_INJECTION_TOKEN } from "src/app/injection Token/sayHello.injection-token";
 @Component({
-  selector: "app-cv",
-  templateUrl: "./cv.component.html",
-  styleUrls: ["./cv.component.css"],
+  selector: 'app-cv',
+  templateUrl: './cv.component.html',
+  styleUrls: ['./cv.component.css'],
 })
 export class CvComponent {
   cvs: Cv[] = [];
@@ -18,8 +20,11 @@ export class CvComponent {
   constructor(
     private logger: LoggerService,
     private toastr: ToastrService,
-    private cvService: CvService
+    private cvService: CvService,
+    // @Inject(HelpersService)
+    private helperService: HelpersService
   ) {
+    this.helperService.sayHello();
     this.cvService.getCvs().subscribe({
       next: (cvs) => {
         this.cvs = cvs;
@@ -31,8 +36,8 @@ export class CvComponent {
           Veuillez contacter l'admin.`);
       },
     });
-    this.logger.logger("je suis le cvComponent");
-    this.toastr.info("Bienvenu dans notre CvTech");
+    this.logger.logger('je suis le cvComponent');
+    this.toastr.info('Bienvenu dans notre CvTech');
   }
   onForwardCv(cv: Cv) {
     this.selectedCv = cv;
