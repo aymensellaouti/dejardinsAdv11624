@@ -55,6 +55,9 @@ import { HelpersService } from "./services/helpers.service";
 import { CvService } from "./cv/services/cv.service";
 import { CONSTANTES } from "src/config/const.config";
 import { FakeCvService } from "./cv/services/fake-cv.service";
+import { Helpers2Service } from "./services/helpers2.service";
+import { v1 as uuidv2 } from 'uuid';
+import { UUID_PROVIDER } from "./injection Token/uuid.inject-token";
 
 @NgModule({
   declarations: [
@@ -112,14 +115,25 @@ import { FakeCvService } from "./cv/services/fake-cv.service";
     }),
   ],
   providers: [
+    // CvService,
     AuthInterceptorProvider,
-    HelpersService,
+    {
+      provide: HelpersService,
+      useClass: HelpersService,
+      multi: true,
+    },
+    {
+      provide: HelpersService,
+      useClass: Helpers2Service,
+      multi: true,
+    },
     {
       provide: CvService,
-      useClass: CONSTANTES.env === 'production' ?
-                CvService
-                : FakeCvService
-      ,
+      useClass: CONSTANTES.env === 'production' ? CvService : FakeCvService,
+    },
+    {
+      provide: UUID_PROVIDER,
+      useValue: uuidv2,
     },
     // {
     //   // useFactory: sayHelloProviderFactory,
