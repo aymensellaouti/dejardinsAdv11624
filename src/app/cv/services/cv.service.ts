@@ -59,7 +59,7 @@ export class CvService {
    * Retourne un cv par son id de l'API
    *
    * @param id: number
-   * @returns CV[]
+   * @returns CV
    *
    */
   getCvById(id: number): Observable<Cv> {

@@ -59,6 +59,7 @@ import { Helpers2Service } from "./services/helpers2.service";
 import { v1 as uuidv2 } from 'uuid';
 import { UUID_PROVIDER } from "./injection Token/uuid.inject-token";
 import { MasterDtailsCvComponent } from './cv/master-dtails-cv/master-dtails-cv.component';
+import { NgxUiLoaderModule } from "ngx-ui-loader";
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { MasterDtailsCvComponent } from './cv/master-dtails-cv/master-dtails-cv.
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    NgxUiLoaderModule,
   ],
   providers: [
     // CvService,

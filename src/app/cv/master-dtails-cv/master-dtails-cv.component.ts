@@ -18,17 +18,23 @@ export class MasterDtailsCvComponent {
   router = inject(Router);
   acr = inject(ActivatedRoute);
   constructor() {
-    this.cvService.getCvs().subscribe({
-      next: (cvs) => {
-        this.cvs = cvs;
-      },
-      error: () => {
-        this.cvs = this.cvService.getFakeCvs();
-        this.toastr.error(`
-          Attention!! Les données sont fictives, problème avec le serveur.
-          Veuillez contacter l'admin.`);
-      },
-    });
+    // Quand c'est statique
+    this.cvs = this.acr.snapshot.data['cvs'];
+    // Lorsque c'est dynmique
+    // this.acr.data.subscribe(
+    //   data => this.cvs = data['cvs']
+    // )
+    // this.cvService.getCvs().subscribe({
+    //   next: (cvs) => {
+    //     this.cvs = cvs;
+    //   },
+    //   error: () => {
+    //     this.cvs = this.cvService.getFakeCvs();
+    //     this.toastr.error(`
+    //       Attention!! Les données sont fictives, problème avec le serveur.
+    //       Veuillez contacter l'admin.`);
+    //   },
+    // });
   }
   onSelectCv(cv: Cv) {
     this.router.navigate(['details', cv.id], {relativeTo: this.acr})
