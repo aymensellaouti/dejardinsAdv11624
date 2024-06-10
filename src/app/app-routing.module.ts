@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { Component, NgModule } from "@angular/core";
 import { RouterModule, Route } from "@angular/router";
 import { TodoComponent } from "./todo/todo/todo.component";
 import { MiniWordComponent } from "./directives/mini-word/mini-word.component";
@@ -13,6 +13,7 @@ import { CvComponent } from "./cv/cv/cv.component";
 import { DetailsCvComponent } from "./cv/details-cv/details-cv.component";
 import { RhComponent } from "./optimizationPattern/rh/rh.component";
 import { authGuard } from "./auth/guards/auth.guard";
+import { MasterDtailsCvComponent } from "./cv/master-dtails-cv/master-dtails-cv.component";
 
 const routes: Route[] = [
   { path: 'login', component: LoginComponent },
@@ -20,6 +21,13 @@ const routes: Route[] = [
   {
     path: 'cv',
     component: CvComponent,
+  },
+  {
+    path: 'cv/list',
+    component: MasterDtailsCvComponent,
+    children: [
+      { path: 'details/:id', component: DetailsCvComponent },
+    ]
   },
   { path: 'cv/add', component: AddCvComponent, canActivate: [authGuard] },
   { path: 'cv/:id', component: DetailsCvComponent },

@@ -58,6 +58,7 @@ import { FakeCvService } from "./cv/services/fake-cv.service";
 import { Helpers2Service } from "./services/helpers2.service";
 import { v1 as uuidv2 } from 'uuid';
 import { UUID_PROVIDER } from "./injection Token/uuid.inject-token";
+import { MasterDtailsCvComponent } from './cv/master-dtails-cv/master-dtails-cv.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { UUID_PROVIDER } from "./injection Token/uuid.inject-token";
     RhComponent,
     UserListComponent,
     ProductsComponent,
+    MasterDtailsCvComponent,
   ],
   imports: [
     BrowserModule,
