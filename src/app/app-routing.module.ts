@@ -16,10 +16,12 @@ import { authGuard } from './auth/guards/auth.guard';
 import { MasterDtailsCvComponent } from './cv/master-dtails-cv/master-dtails-cv.component';
 import { detailCvResolverResolver } from './cv/resolver/detail-cv-resolver.resolver';
 import { masterDetailsResolver } from './cv/resolver/master-details-resolver.resolver';
+import { SliderComponent } from './rxjs/slider/slider.component';
 
 const routes: Route[] = [
   { path: 'login', component: LoginComponent },
   { path: 'rh', component: RhComponent },
+  { path: 'slider', component: SliderComponent },
   {
     path: 'cv',
     component: CvComponent,
@@ -70,9 +72,11 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    enableTracing: true,
-  })],
+  imports: [RouterModule.forRoot(routes
+  //   , {
+  //   enableTracing: true,
+  // }
+)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

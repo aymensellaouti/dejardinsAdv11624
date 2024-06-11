@@ -15,4 +15,12 @@ export class AutocompleteComponent {
     return this.form.get("search")!;
   }
   form = this.formBuilder.group({ search: [""] });
+  constructor() {
+    this.search.valueChanges
+    .pipe(
+    // adadadadadda
+      debounceTime(1000)
+    )
+    .subscribe(search => console.log({search}))
+  }
 }

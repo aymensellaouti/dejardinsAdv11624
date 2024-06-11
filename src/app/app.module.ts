@@ -60,6 +60,7 @@ import { v1 as uuidv2 } from 'uuid';
 import { UUID_PROVIDER } from "./injection Token/uuid.inject-token";
 import { MasterDtailsCvComponent } from './cv/master-dtails-cv/master-dtails-cv.component';
 import { NgxUiLoaderModule } from "ngx-ui-loader";
+import { FromOfComponent } from "./rxjs/from-of/from-of.component";
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { NgxUiLoaderModule } from "ngx-ui-loader";
     UserListComponent,
     ProductsComponent,
     MasterDtailsCvComponent,
+    FromOfComponent,
   ],
   imports: [
     BrowserModule,

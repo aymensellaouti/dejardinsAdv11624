@@ -11,7 +11,7 @@ export class FromOfComponent {
   from$ = from(this.data).subscribe((data) => {
     console.log(`from: ${data}`);
   });
-  of$ = of(this.data).subscribe((data) => {
+  of$ = of(this.data, {username: 'aymen', name: 'sellaouti'}).subscribe((data) => {
     console.log(`of: ${data}`);
   });
 }
