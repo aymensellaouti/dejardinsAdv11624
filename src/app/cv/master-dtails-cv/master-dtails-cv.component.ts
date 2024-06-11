@@ -3,6 +3,7 @@ import { Cv } from '../model/cv';
 import { CvService } from '../services/cv.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-master-dtails-cv',
@@ -35,8 +36,13 @@ export class MasterDtailsCvComponent {
     //       Veuillez contacter l'admin.`);
     //   },
     // });
+    this.cvService.selectedCv$.pipe(
+      tap((cv) =>
+        this.router.navigate(['details', cv.id], { relativeTo: this.acr })
+      )
+    ).subscribe();
   }
   onSelectCv(cv: Cv) {
-    this.router.navigate(['details', cv.id], {relativeTo: this.acr})
+
   }
 }

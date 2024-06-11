@@ -14,6 +14,8 @@ export class ItemComponent {
   // @Output() selectCv = new EventEmitter<Cv>();
 
   onSelectCv() {
+    if (this.cv)
+      this.cvService.onSelectCv(this.cv);
     // if (this.cv) this.selectCv.emit(this.cv);
   }
 }
