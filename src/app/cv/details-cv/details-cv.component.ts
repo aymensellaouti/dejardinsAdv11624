@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { APP_ROUTES } from '../../../config/routes.config';
 import { AuthService } from '../../auth/services/auth.service';
-import { Observable, map } from 'rxjs';
+import { Observable, debounceTime, map } from 'rxjs';
 
 @Component({
   selector: 'app-details-cv',
@@ -14,7 +14,10 @@ import { Observable, map } from 'rxjs';
 })
 export class DetailsCvComponent implements OnInit {
   cv$: Observable<Cv> = this.activatedRoute.data.pipe(
-    map((data) => data['cv'])
+    map((data) => data['cv']),
+    // catchError((error) => Observable.throw(error)),
+    // filter(),
+    // debounceTime(500)
   );
   // id = this.activatedRoute.snapshot.params['id'];
   // cv$: Observable<Cv> = this.cvService.getCvById(this.id);
