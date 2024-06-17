@@ -3,7 +3,7 @@ import { Cv } from "../model/cv";
 import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "ngx-toastr";
 import { CvService } from "../services/cv.service";
-import { EMPTY, Observable, catchError, count, delay, of, retry } from "rxjs";
+import { EMPTY, Observable, catchError, count, delay, map, of, retry, share } from "rxjs";
 import { HelpersService } from "src/app/services/helpers.service";
 import { SAY_HELLO_INJECTION_TOKEN } from "src/app/injection Token/sayHello.injection-token";
 @Component({
@@ -13,9 +13,10 @@ import { SAY_HELLO_INJECTION_TOKEN } from "src/app/injection Token/sayHello.inje
 })
 export class CvComponent {
   cvs$: Observable<Cv[]> = this.cvService.getCvs().pipe(
+    share(),
     retry({
       delay: 3000,
-      count: 4
+      count: 4,
     }),
     catchError((e) => {
       this.toastr.error(`
@@ -23,6 +24,12 @@ export class CvComponent {
           Veuillez contacter l'admin.`);
       return of(this.cvService.getFakeCvs());
     })
+  );
+  junior$: Observable<Cv[]> = this.cvs$.pipe(
+    map((cvs) => cvs.filter((cv) => cv.age < 40))
+  );
+  seniors$: Observable<Cv[]> = this.cvs$.pipe(
+    map((cvs) => cvs.filter((cv) => cv.age >= 40))
   );
   selectedCv$: Observable<Cv> = this.cvService.selectedCv$;
   /*   selectedCv: Cv | null = null; */
