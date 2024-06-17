@@ -18,6 +18,7 @@ import { detailCvResolverResolver } from './cv/resolver/detail-cv-resolver.resol
 import { masterDetailsResolver } from './cv/resolver/master-details-resolver.resolver';
 import { SliderComponent } from './rxjs/slider/slider.component';
 import { ProductsComponent } from './products/products.component';
+import { canLeaveGuard } from './guards/can-leave.guard';
 
 const routes: Route[] = [
   { path: 'login', component: LoginComponent },
@@ -61,7 +62,7 @@ const routes: Route[] = [
     path: '',
     component: FrontComponent,
     children: [
-      { path: 'todo', component: TodoComponent },
+      { path: 'todo', component: TodoComponent, canDeactivate: [canLeaveGuard] },
       { path: 'word', component: MiniWordComponent },
     ],
   },

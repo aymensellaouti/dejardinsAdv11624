@@ -3,8 +3,8 @@ import { Cv } from '../model/cv';
 import { CvService } from '../services/cv.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs';
-
+import { Subscription, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-master-dtails-cv',
   templateUrl: './master-dtails-cv.component.html',
@@ -18,6 +18,7 @@ export class MasterDtailsCvComponent {
   toastr = inject(ToastrService);
   router = inject(Router);
   acr = inject(ActivatedRoute);
+
   constructor() {
     // Quand c'est statique
     this.cvs = this.acr.snapshot.data['cvs'];
@@ -37,6 +38,7 @@ export class MasterDtailsCvComponent {
     //   },
     // });
     this.cvService.selectedCv$.pipe(
+      takeUntilDestroyed(),
       tap((cv) =>
         this.router.navigate(['details', cv.id], { relativeTo: this.acr })
       )
