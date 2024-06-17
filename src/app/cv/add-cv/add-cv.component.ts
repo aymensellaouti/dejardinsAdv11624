@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { APP_ROUTES } from 'src/config/routes.config';
 import { Cv } from '../model/cv';
-import { EMPTY, catchError, tap } from 'rxjs';
+import { EMPTY, catchError, filter, tap } from 'rxjs';
 
 @Component({
   selector: 'app-add-cv',
@@ -21,6 +21,18 @@ export class AddCvComponent {
     this.age.valueChanges
       .pipe(tap((age) => (age < 18 ? this.path.disable() : this.path.enable())))
       .subscribe();
+
+    this.form.statusChanges.pipe(
+     filter(() => this.form.valid),
+     tap(() => {
+      localStorage.setItem('addCvForm', JSON.stringify(this.form.value))
+     })
+    ).subscribe();
+
+    const form = localStorage.getItem('addCvForm');
+    if (form) {
+      this.form.setValue(JSON.parse(form));
+    }
   }
 
   formBuilder = inject(FormBuilder);
@@ -34,7 +46,10 @@ export class AddCvComponent {
   });
   addCv() {
     this.cvService.addCv(this.form.value).pipe(
-      tap(() => this.router.navigate([APP_ROUTES.cv])),
+      tap(() => {
+        this.router.navigate([APP_ROUTES.cv]);
+        localStorage.removeItem('addCvForm');
+      }),
       catchError(e => {
         this.toaster.error('Veuillez contacter l admin');
         return EMPTY;
