@@ -18,8 +18,7 @@ export class AutocompleteComponent {
   constructor() {
     this.search.valueChanges
     .pipe(
-    // adadadadadda
-      debounceTime(1000)
+      debounceTime(500)
     )
     .subscribe(search => console.log({search}))
   }
