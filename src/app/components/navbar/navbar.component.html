@@ -78,6 +78,7 @@
           routerLinkActive="active text-primary"
           >Rh</a
         >
+        <!-- Todo remplacer tout appel à isAuthenticated Avec un observable -->
         <a
           *ngIf="!authService.isAuthenticated()"
           class="nav-link"

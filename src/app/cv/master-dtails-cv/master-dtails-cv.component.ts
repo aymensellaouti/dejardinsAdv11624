@@ -42,7 +42,4 @@ export class MasterDtailsCvComponent {
       )
     ).subscribe();
   }
-  onSelectCv(cv: Cv) {
-
-  }
 }
