@@ -17,7 +17,11 @@ export class AddCvComponent {
     private cvService: CvService,
     private router: Router,
     private toaster: ToastrService
-  ) {}
+  ) {
+    this.age.valueChanges
+      .pipe(tap((age) => (age < 18 ? this.path.disable() : this.path.enable())))
+      .subscribe();
+  }
 
   formBuilder = inject(FormBuilder);
   form: FormGroup = this.formBuilder.group({
@@ -25,7 +29,7 @@ export class AddCvComponent {
     firstname: ['', { validators: [Validators.required] }],
     job: ['', { validators: [Validators.required] }],
     path: [''],
-    age: [40, { validators: [Validators.required] }],
+    age: [40, { validators: [Validators.required], updateOn: 'blur' }],
     cin: [''],
   });
   addCv() {
@@ -36,7 +40,7 @@ export class AddCvComponent {
         return EMPTY;
       })
     ).subscribe();
-    // this.form.statusChanges
+
   }
 
   get name() {
