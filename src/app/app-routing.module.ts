@@ -17,10 +17,12 @@ import { MasterDtailsCvComponent } from './cv/master-dtails-cv/master-dtails-cv.
 import { detailCvResolverResolver } from './cv/resolver/detail-cv-resolver.resolver';
 import { masterDetailsResolver } from './cv/resolver/master-details-resolver.resolver';
 import { SliderComponent } from './rxjs/slider/slider.component';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Route[] = [
   { path: 'login', component: LoginComponent },
   { path: 'rh', component: RhComponent },
+  { path: 'products', component: ProductsComponent },
   { path: 'slider', component: SliderComponent },
   {
     path: 'cv',
