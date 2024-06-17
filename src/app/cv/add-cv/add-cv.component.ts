@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { APP_ROUTES } from 'src/config/routes.config';
 import { Cv } from '../model/cv';
+import { EMPTY, catchError, tap } from 'rxjs';
 
 @Component({
   selector: 'app-add-cv',
@@ -27,7 +28,16 @@ export class AddCvComponent {
     age: [40, { validators: [Validators.required] }],
     cin: [''],
   });
-  addCv() {}
+  addCv() {
+    this.cvService.addCv(this.form.value).pipe(
+      tap(() => this.router.navigate([APP_ROUTES.cv])),
+      catchError(e => {
+        this.toaster.error('Veuillez contacter l admin');
+        return EMPTY;
+      })
+    ).subscribe();
+    // this.form.statusChanges
+  }
 
   get name() {
     return this.form.get('name')!;
