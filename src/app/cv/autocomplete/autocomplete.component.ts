@@ -4,22 +4,19 @@ import { debounceTime, distinctUntilChanged, switchMap, tap } from "rxjs";
 import { CvService } from "../services/cv.service";
 
 @Component({
-  selector: "app-autocomplete",
-  templateUrl: "./autocomplete.component.html",
-  styleUrls: ["./autocomplete.component.css"],
+  selector: 'app-autocomplete',
+  templateUrl: './autocomplete.component.html',
+  styleUrls: ['./autocomplete.component.css'],
 })
 export class AutocompleteComponent {
   formBuilder = inject(FormBuilder);
+  cvs$ = this.search.valueChanges.pipe(debounceTime(500));
   cvService = inject(CvService);
   get search(): AbstractControl {
-    return this.form.get("search")!;
+    return this.form.get('search')!;
   }
-  form = this.formBuilder.group({ search: [""] });
+  form = this.formBuilder.group({ search: [''] });
   constructor() {
-    this.search.valueChanges
-    .pipe(
-      debounceTime(500)
-    )
-    .subscribe(search => console.log({search}))
+    // .subscribe(search => console.log({search}))
   }
 }
