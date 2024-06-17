@@ -3,7 +3,7 @@ import { CredentialsDto } from '../dto/credentials.dto';
 import { LoginResponseDto } from '../dto/login-response.dto';
 import { HttpClient } from '@angular/common/http';
 import { API } from '../../../config/api.config';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, tap } from 'rxjs';
 
 export interface ConnectedUser {
   id: number;
@@ -15,20 +15,36 @@ export interface ConnectedUser {
 })
 export class AuthService {
   // Flux qui informe du user authentifié
-  user$: any;
-
+  private userSubject$: BehaviorSubject<ConnectedUser | null> =
+    new BehaviorSubject<ConnectedUser | null>(null);
+  user$ = this.userSubject$.asObservable();
   // c'est un flux qui me notifie que le user est authentifié
-  isLoggedIn$!: Observable<boolean>;
+  isLoggedIn$: Observable<boolean> = this.userSubject$.pipe(
+    map((user) => !!user)
+  );
   // c'est un flux qui me notifie que le user est deconnecté
-  isLoggedOut$!: Observable<boolean>;
+  isLoggedOut$: Observable<boolean> = this.userSubject$.pipe(
+    map((user) => !user)
+  );
 
   constructor(private http: HttpClient) {
     // Todo Il faudra charger le connectedUser s'il existe
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.userSubject$.next(JSON.parse(user));
+    }
   }
 
   login(credentials: CredentialsDto): Observable<LoginResponseDto> {
     // sauvgarder mon ConnectedUser
-    return this.http.post<LoginResponseDto>(API.login, credentials);
+    return this.http.post<LoginResponseDto>(API.login, credentials).pipe(
+      tap((response) => {
+        localStorage.setItem('token', response.id);
+        const user = { id: response.userId, email: credentials.email };
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject$.next(user);
+      })
+    );
   }
 
   isAuthenticated(): boolean {
@@ -37,5 +53,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.userSubject$.next(null);
   }
 }
